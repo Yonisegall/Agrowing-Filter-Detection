@@ -10,9 +10,8 @@ from helper_functions.detect_edges import detect_edges
 
 project_root = Path(__file__).resolve().parents[2]
 image_npz_files = [
-    # r'im1_newnorm_delete.npz',
-    r'im1.npz',
-    # r'before_changes1.npz',
+
+    r'Colors_normalize3.npz'
 ]
 
 graph_f_paths = [(project_root / 'stacks' / path) for path in image_npz_files]

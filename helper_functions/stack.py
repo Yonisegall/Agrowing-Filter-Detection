@@ -70,34 +70,54 @@ def remove_empty_bands_and_sort_bands(band_names):
     return sorted_band_names
 
 def normalize_stack_0_to_255(stack):
+    # """
+    # Normalize each band (last dimension) of a 3D image stack to the range 0-255.
+    #
+    # Parameters:
+    # - stack (np.ndarray): Input array of shape (H, W, B) where B is number of bands.
+    #
+    # Returns:
+    # - np.ndarray: Normalized stack as.
+    # """
+    # assert isinstance(stack, np.ndarray), "'stack' must be a NumPy ndarray"
+    # assert np.issubdtype(stack.dtype, np.floating), f"'stack' must be a float array, but got {stack.dtype}"
+    #
+    # normalized_stack = np.zeros_like(stack)
+    #
+    # for band in range(stack.shape[2]):
+    #     band_data = stack[:, :, band]
+    #
+    #     min_val = band_data.min()
+    #     max_val = band_data.max()
+    #
+    #     # Avoid division by zero if the band is flat
+    #     if min_val == max_val:
+    #         normalized_stack[:, :, band] = 0
+    #         raise Exception
+    #     else:
+    #         scaled = 255 * (band_data - min_val) / (max_val - min_val)
+    #         normalized_stack[:, :, band] = scaled
+    #
+    # return normalized_stack
+
+
     """
-    Normalize each band (last dimension) of a 3D image stack to the range 0-255.
+    Normalize the entire stack globally to the range 0-255.
 
     Parameters:
-    - stack (np.ndarray): Input array of shape (H, W, B) where B is number of bands.
+    - stack (np.ndarray): Input array of shape (H, W, B).
 
     Returns:
-    - np.ndarray: Normalized stack as.
+    - np.ndarray: Globally normalized stack.
     """
-    assert isinstance(stack, np.ndarray), "'stack' must be a NumPy ndarray"
-    assert np.issubdtype(stack.dtype, np.floating), f"'stack' must be a float array, but got {stack.dtype}"
+    min_val = stack.min()
+    max_val = stack.max()
 
-    normalized_stack = np.zeros_like(stack)
+    if min_val == max_val:
+        raise ValueError("All values in the stack are identical. Cannot normalize.")
 
-    for band in range(stack.shape[2]):
-        band_data = stack[:, :, band]
-        min_val = band_data.min()
-        max_val = band_data.max()
-
-        # Avoid division by zero if the band is flat
-        if min_val == max_val:
-            normalized_stack[:, :, band] = 0
-            raise Exception
-        else:
-            scaled = 255 * (band_data - min_val) / (max_val - min_val)
-            normalized_stack[:, :, band] = scaled
-
-    return normalized_stack
+    scaled = 255 * (stack - min_val) / (max_val - min_val)
+    return scaled.astype(np.uint8)
 
 
 def load_multilayer_npz(path):
@@ -115,5 +135,6 @@ def load_multilayer_npz(path):
     data = np.load(path)
     stack = data["stack"]
     band_names = data["band_names"].tolist()
+
     return stack, band_names
 

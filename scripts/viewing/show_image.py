@@ -8,6 +8,7 @@ from helper_functions.show_image_with_pixel_info import show_image_with_pixel_in
 project_root = Path(__file__).resolve().parents[2]  # goes up two levels from viewing/
 
 # === Config ===
+
 # file_path = project_root / r"data/M24_23_03_25_TDP00872.ARW
 file_path = project_root / r'data\TDP00911.ARW'
 # file_path = project_root / r"data/od_TDP00020.png"

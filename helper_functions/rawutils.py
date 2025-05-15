@@ -3,7 +3,7 @@ import numpy as np
 from helper_functions.stack import normalize_stack_0_to_255
 
 
-def read_arw_as_rgb(path, normalize=False):
+def ARW_as_Matrix(path, normalize1=False, normalize2=False, normalize3=False, normalize4=True):
     """
     Loads a Sony .ARW RAW file and returns a postprocessed RGB image.
     
@@ -15,17 +15,28 @@ def read_arw_as_rgb(path, normalize=False):
         np.ndarray: RGB image as NumPy array.
     """
     with rawpy.imread(str(path)) as raw:
-        rgb = raw.postprocess(
+
+        RGB_image = raw.postprocess(
             use_camera_wb=False,
             no_auto_bright=True,
             output_bps=16,       # preserve dynamic range
             gamma=(1, 1)         # linear gamma
         )
-    # with rawpy.imread(str(path)) as raw:
-    #     rgb = raw.postprocess()
-    rgb = rgb.astype(np.float32)
-    normalized = (rgb - rgb.min()) / (rgb.max() - rgb.min()) * 255
 
-    if normalize:
-        rgb = normalize_stack_0_to_255(rgb)
-    return normalized
+    RGB_image = RGB_image.astype(np.float32)
+
+    print(type(RGB_image))
+
+    if normalize1:
+        RGB_image = (RGB_image - RGB_image.min()) / (RGB_image.max() - RGB_image.min()) * 255
+
+    elif normalize2:
+        RGB_image  = (RGB_image / 65535.0) * 255
+
+    elif normalize3:
+        RGB_image = normalize_stack_0_to_255(RGB_image)
+
+    elif normalize4:
+        RGB_image = RGB_image/211.4
+
+    return RGB_image

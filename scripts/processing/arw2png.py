@@ -17,6 +17,6 @@ def convert_arw_to_png(input_path: str, output_path: str) -> None:
         print(f"Error during conversion: {e}")
 
 # Example usage
-image_arw = r'data/M24_23_03_25_TDP00872.ARW'
+image_arw = r'data/DSC00029.ARW'
 image_png =  f"{os.path.splitext(image_arw)[0]}.png"  # Split the file path and extension
 convert_arw_to_png(image_arw, image_png)

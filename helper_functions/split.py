@@ -26,6 +26,13 @@ def split_image_to_tiles(image, cols=3, rows=2):
             tile = image[y_start:y_start + tile_h, x_start:x_start + tile_w]
             tiles.append(tile)
 
+    # for row in range(rows):      # top to bottom
+    #     for col in range(cols):  # left to right
+    #         x_start = col * tile_w
+    #         y_start = row * tile_h
+    #         tile = image[y_start:y_start + tile_h, x_start:x_start + tile_w]
+    #         tiles.append(tile)
+
     return tiles
 
 

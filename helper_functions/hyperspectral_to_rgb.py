@@ -32,7 +32,9 @@ project_root = Path(__file__).resolve().parents[1]
 
 
 def hyperspectral_to_rgb(hyperspectral_stack, band_names):
+
     # === Load the CIE 1931 XYZ Color Matching Functions ===
+
     # Load the CSV
     cmf_data = pd.read_csv(project_root / 'CIE_1931_color_space.csv',
                            comment='#',  # Skip lines starting with #

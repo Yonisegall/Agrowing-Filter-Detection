@@ -4,7 +4,7 @@ import numpy as np
 from helper_functions.hyperspectral_to_rgb import hyperspectral_to_rgb
 from helper_functions.show_np_image import show_image
 from helper_functions.pipeline import process_rgb_to_stack
-from helper_functions.rawutils import read_arw_as_rgb
+from helper_functions.rawutils import ARW_as_Matrix
 from band_values import Sextuple218mm_bands
 
 # === Base project path
@@ -14,13 +14,13 @@ project_root = Path(__file__).resolve().parents[2]  # goes up two levels from sc
 # file_path = project_root / r'data\od_TDP00020.ARW'
 # file_path = project_root / r'data\M24_23_03_25_TDP00872.ARW'
 # file_path = project_root / r'data\TDP00193.ARW'
-file_path = project_root / r'data\yarkonim2_DSC00008.ARW'
+file_path = project_root / r'data\DSC00029.ARW'
 
 band_names = Sextuple218mm_bands
 
 # === Load and process ===
 print("[INFO] Reading RAW image...")
-rgb_image = read_arw_as_rgb(file_path)
+rgb_image = ARW_as_Matrix(file_path)
 
 print("[INFO] Processing RGB to spectral stack...")
 stack, band_names = process_rgb_to_stack(rgb_image, cols=3, rows=2, band_names=band_names)
